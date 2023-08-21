@@ -2,7 +2,9 @@ import { TgtgApiConfig } from './tgtg-endpoints';
 
 export type TgtgClientOptions = {
   /**
-   * Email of your TooGoodToGo account.
+   * The optional first name to use.
+   *
+   * @default faker.person.firstName()
    */
   email?: string;
   accessToken?: string;
@@ -25,6 +27,22 @@ export class TgtgClient {
   language: string;
   accessTokenLifetime: number;
   deviceType: string;
+
+  /**
+   * Generates an email address using the given person's name as base.
+   *
+   * @param options The options to use. Defaults to `{}`.
+   * @param options.email The optional first name to use. If not specified, a random one will be chosen.
+   * in the email address. Defaults to `false`.
+   *
+   * @example
+   * faker.internet.email() // 'Kassandra4@hotmail.com'
+   * faker.internet.email({ firstName: 'Jeanne', lastName: 'Doe' }) // 'Jeanne63@yahoo.com'
+   * faker.internet.email({ firstName: 'Jeanne', lastName: 'Doe', provider: 'example.fakerjs.dev' }) // 'Jeanne_Doe88@example.fakerjs.dev'
+   * faker.internet.email({ firstName: 'Jeanne', lastName: 'Doe', provider: 'example.fakerjs.dev', allowSpecialCharacters: true }) // 'Jeanne%Doe88@example.fakerjs.dev'
+   *
+   * @since 2.0.1
+   */
   constructor(options: TgtgClientOptions) {
     this.email = options.email || null;
     this.accessToken = options.accessToken || null;

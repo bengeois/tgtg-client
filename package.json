@@ -4,6 +4,11 @@
   "description": "A node TooGoodToGo API wrapper",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
+    "lint": "eslint src",
+    "lint:fix": "npm run lint -- --fix",
+    "format": "prettier src --check",
+    "format:fix": "npm run format -- --write",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,6 +28,12 @@
   },
   "homepage": "https://github.com/bengeois/tgtg-api#readme",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/parser": "^6.4.0",
+    "eslint": "^8.47.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.0.2",
     "typescript": "^5.1.6"
   }
 }

@@ -1,6 +1,9 @@
 # Compiled code
 /dist
 
+# IDE
+/.idea
+
 # Logs
 logs
 *.log

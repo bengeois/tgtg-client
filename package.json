@@ -1,9 +1,9 @@
 {
-  "name": "@bengeois/tgtg-api",
+  "name": "tgtg-client",
   "version": "1.0.0",
   "description": "A node TooGoodToGo API wrapper",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "files": [
     "/dist"
   ],

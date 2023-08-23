@@ -1,1 +1,1 @@
-export { TgtgClient } from './lib/client.js';
+export { TgtgClient } from './lib/client';

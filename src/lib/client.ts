@@ -1,7 +1,7 @@
+import got, { Got, RequestError } from 'got';
+import { get, has, pick } from 'lodash';
 import { TgtgClientOptions } from '../types';
-import got, { Got } from 'got';
-import { get, has } from 'lodash';
-import { TgtgApiConfig } from './tgtg-endpoints';
+import { TgtgConfig } from './config/tgtg-config';
 
 /**
  * Client to interact with the TooGoodToGo API.
@@ -24,16 +24,16 @@ export class TgtgClient {
     this.refreshToken = null;
     this.userId = null;
     this.got = got.extend({
-      prefixUrl: TgtgApiConfig.baseUrl,
+      prefixUrl: TgtgConfig.baseUrl,
       headers: {
-        'User-Agent': TgtgApiConfig.userAgent,
+        'User-Agent': TgtgConfig.userAgent,
         'Content-Type': 'application/json; charset=utf-8',
         Accept: 'application/json',
         'Accept-Language': 'en-US',
         'Accept-Encoding': 'gzip',
       },
       responseType: 'json',
-      resolveBodyOnly: true,
+      // resolveBodyOnly: true,
       retry: {
         limit: 2,
         methods: ['GET', 'POST', 'PUT', 'HEAD', 'DELETE', 'OPTIONS', 'TRACE'],
@@ -52,16 +52,23 @@ export class TgtgClient {
       throw new Error('You must provide an email.');
     }
 
-    const body = await this.got.post(TgtgApiConfig.authByEmail, {
-      json: {
-        device_type: 'IOS',
-        email: this.email,
-      },
-    });
+    let response;
 
-    if (!has(body, 'polling_id')) throw new Error('There was an error during authentification request, please retry.');
+    try {
+      response = await this.got.post(TgtgConfig.authByEmail, {
+        json: {
+          device_type: 'IOS',
+          email: this.email,
+        },
+      });
+    } catch (err: unknown) {
+      throw new Error('There was an error during authentification request : ' + (err as RequestError).message);
+    }
 
-    return get<unknown, string>(body, 'polling_id');
+    if (!has(response.body, 'polling_id'))
+      throw new Error('There was an error during authentification request: no polling_id received.');
+
+    return get<unknown, string>(response.body, 'polling_id');
   }
 
   /**
@@ -70,30 +77,42 @@ export class TgtgClient {
    * @returns {Promise<void>} Returns a polling_id that should be use to call authenticate method with.
    */
   async authenticate(pollingId: string): Promise<void> {
-    if (!this.email) {
-      throw new Error('You must provide an email.');
-    }
+    let response;
 
-    const response = await this.got
-      .post(TgtgApiConfig.authPolling, {
+    try {
+      response = await this.got.post(TgtgConfig.authPolling, {
         json: {
           device_type: 'IOS',
           email: this.email,
           request_polling_id: pollingId,
         },
       });
+    } catch (err: unknown) {
+      throw new Error('There was an error during authentification : ' + (err as RequestError).message);
+    }
 
-    if (response.statusCode != 200)
-    throw new Error('There was an error during authentification, please retry.');
+    if (
+      !has(response.body, 'access_token') ||
+      !has(response.body, 'refresh_token') ||
+      !has(response.body, 'startup_data.user.user_id')
+    )
+      throw new Error(
+        'There was an error during authentification, no access_token, refresh_token or user_id received.',
+      );
 
-    //TODO: TEST
-    const body = JSON.parse(response.body);
+    this.accessToken = get<unknown, string>(response.body, 'access_token');
+    this.refreshToken = get<unknown, string>(response.body, 'refresh_token');
+    this.userId = get<unknown, string>(response.body, 'startup_data.user.user_id');
+  }
 
-    if (!has(body, 'access_token') || !has(body, 'refresh_token'))
-      throw new Error('There was an error during authentification, please retry.');
+  getCredentials(): any {
+    return pick(this, ['email', 'accessToken', 'refreshToken', 'userId']);
+  }
 
-    this.accessToken = get(body, 'access_token');
-    this.refreshToken = get(body, 'refresh_token');
-    this.userId = get(body, 'startup_data.user.user_id');
+  setCredentials(email: string, accessToken: string, refreshToken: string, userId: string): void {
+    this.email = email;
+    this.accessToken = accessToken;
+    this.refreshToken = refreshToken;
+    this.userId = userId;
   }
 }

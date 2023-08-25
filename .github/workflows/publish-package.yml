@@ -5,7 +5,7 @@ on:
     types: [created]
 
 jobs:
-  check:
+  publish-package:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -35,4 +35,4 @@ jobs:
       - name: Publish package
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

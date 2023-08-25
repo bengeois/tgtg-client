@@ -6,7 +6,7 @@ on:
       - chore/workflows
 
 jobs:
-  install:
+  check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

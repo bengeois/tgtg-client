@@ -1,3 +1,1 @@
-export function helloWorld(): string {
-  return 'Hello World!';
-}
+export { TgtgClient } from './lib/client';

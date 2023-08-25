@@ -1,5 +1,8 @@
 # Compiled code
-/lib
+/dist
+
+# IDE
+/.idea
 
 # Logs
 logs

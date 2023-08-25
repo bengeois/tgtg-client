@@ -1,1 +1,1 @@
-# tgtg-api
+# tgtg-client

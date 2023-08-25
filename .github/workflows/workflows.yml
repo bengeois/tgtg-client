@@ -1,4 +1,4 @@
-name: Package
+name: Check
 
 on:
   push:
@@ -9,14 +9,25 @@ jobs:
   install:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - run: npm ci
+      - name: Checkout
+        uses: actions/checkout@v3
 
-  format:
-    runs-on: ubuntu-latest
-    needs: install
-    steps:
-      - run: npm run format
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Format
+        run: npm run format
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
+
+      - name: Build package
+        run: npm run build

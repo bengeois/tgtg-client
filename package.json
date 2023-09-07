@@ -13,7 +13,7 @@
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier src --check",
     "format:fix": "npm run format -- --write",
-    "test": "echo \"No test specified\""
+    "test": "vitest"
   },
   "repository": {
     "type": "git",
@@ -39,8 +39,10 @@
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "nock": "^13.3.3",
     "prettier": "^3.0.2",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "vitest": "^0.34.3"
   },
   "dependencies": {
     "got": "^11.8.6",

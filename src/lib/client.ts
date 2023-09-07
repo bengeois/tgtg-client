@@ -122,7 +122,7 @@ export class TgtgClient {
         },
       });
     } catch (err: unknown) {
-      throw new Error('There was an error during authentification request : ' + (err as RequestError).message);
+      throw new Error('There was an error during authentification request: ' + (err as RequestError).message);
     }
 
     if (!has(response.body, 'polling_id'))
@@ -153,7 +153,7 @@ export class TgtgClient {
         },
       });
     } catch (err: unknown) {
-      throw new Error('There was an error during authentification : ' + (err as RequestError).message);
+      throw new Error('There was an error during authentification: ' + (err as RequestError).message);
     }
 
     if (
@@ -227,7 +227,7 @@ export class TgtgClient {
   async getFavorites(size?: number, page?: number): Promise<TgtgClientItemResult[]> {
     await this._checkLogin();
 
-    return this.getItems({ favorites_only: true, page_size: size, page });
+    return this.getItems({ favorites_only: true, page_size: size, page: page });
   }
 
   /**
@@ -247,9 +247,9 @@ export class TgtgClient {
     const requestData = {
       user_id: this.userId,
       origin: filters.origin || { latitude: 0.0, longitude: 0.0 },
-      radius: filters.radius || 20,
-      page_size: filters.page_size || 20,
-      page: filters.page || 1,
+      radius: filters.radius ?? 20,
+      page_size: filters.page_size ?? 20,
+      page: filters.page ?? 1,
       discover: filters.discover || false,
       favorites_only: filters.favorites_only || false,
       item_categories: filters.item_categories || [],
@@ -268,7 +268,7 @@ export class TgtgClient {
         },
       });
     } catch (err: unknown) {
-      throw new Error('There was an error while fetching items : ' + (err as RequestError).message);
+      throw new Error('There was an error while fetching items: ' + (err as RequestError).message);
     }
 
     if (!has(response.body, 'items')) throw new Error('There was an error while fetching items: no items received.');

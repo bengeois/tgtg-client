@@ -1,7 +1,13 @@
 {
   "name": "tgtg-client",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "description": "A node TooGoodToGo API wrapper",
+  "author": "Benjamin Bourgeois",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bengeois/tgtg-client/issues"
+  },
+  "homepage": "https://github.com/bengeois/tgtg-client#readme",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": "./dist/index.js",
@@ -27,12 +33,6 @@
     "node",
     "client"
   ],
-  "author": "Benjamin Bourgeois",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/bengeois/tgtg-client/issues"
-  },
-  "homepage": "https://github.com/bengeois/tgtg-client#readme",
   "devDependencies": {
     "@types/lodash": "^4.14.197",
     "@types/tough-cookie": "^4.0.2",

@@ -21,8 +21,6 @@
 
 ![Downloads](https://img.shields.io/github/downloads/bengeois/tgtg-client/total) ![Contributors](https://img.shields.io/github/contributors/bengeois/tgtg-client?color=dark-green) ![Issues](https://img.shields.io/github/issues/bengeois/tgtg-client) ![License](https://img.shields.io/github/license/bengeois/tgtg-client)
 
-> :warning: **This package will be officialy stable in v1.0.0**
-
 ## Table Of Contents
 
 - [Table Of Contents](#table-of-contents)

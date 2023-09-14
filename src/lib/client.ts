@@ -1,5 +1,6 @@
 import got, { Got, RequestError } from 'got';
 import { get, has } from 'lodash';
+import { CookieJar } from 'tough-cookie';
 import { TgtgClientOptions } from '../types';
 import { TgtgClientCredentials } from '../types/interfaces/tgtg-client-credentials.interface';
 import { TgtgClientItemsFilters } from '../types/interfaces/tgtg-client-item-filters.interface';
@@ -16,7 +17,7 @@ import { TgtgConfig } from './config/tgtg-config';
  */
 export class TgtgClient {
   private got: Got;
-  private email: string | null;
+  private readonly email: string | null;
   private accessToken: string | null;
   private refreshToken: string | null;
   private accessTokenTtl: number;
@@ -32,6 +33,7 @@ export class TgtgClient {
     this.accessTokenTtl = 0;
     this.got = got.extend({
       prefixUrl: TgtgConfig.baseUrl,
+      cookieJar: new CookieJar(),
       headers: {
         'User-Agent': TgtgConfig.userAgent,
         'Content-Type': 'application/json; charset=utf-8',
@@ -227,7 +229,7 @@ export class TgtgClient {
   async getFavorites(size?: number, page?: number): Promise<TgtgClientItemResult[]> {
     await this._checkLogin();
 
-    return this.getItems({ favorites_only: true, page_size: size, page: page });
+    return await this.getItems({ favorites_only: true, page_size: size, page: page });
   }
 
   /**

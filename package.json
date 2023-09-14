@@ -34,6 +34,7 @@
   "homepage": "https://github.com/bengeois/tgtg-client#readme",
   "devDependencies": {
     "@types/lodash": "^4.14.197",
+    "@types/tough-cookie": "^4.0.2",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": "^6.4.0",
     "eslint": "^8.47.0",
@@ -46,6 +47,7 @@
   },
   "dependencies": {
     "got": "^11.8.6",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "tough-cookie": "^4.1.3"
   }
 }
